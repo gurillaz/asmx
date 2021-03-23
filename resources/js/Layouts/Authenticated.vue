@@ -34,7 +34,7 @@
             <v-list-item @click="() => {}" v-if="listItem.submenu.length > 0">
               <v-list-item-title>
                 <v-menu
-                tile
+                  tile
                   offset-x
                   right
                   nudge-right="17"
@@ -43,11 +43,10 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-list-item-title v-bind="attrs" v-on="on">
-
                       <v-icon small left>{{ listItem.icon }}</v-icon>
 
                       {{ listItem.text }}
-                      <v-icon small right color="red" >mdi-chevron-right</v-icon>
+                      <v-icon small right color="red">mdi-chevron-right</v-icon>
                     </v-list-item-title>
                     <!-- <v-btn text tile small class="pa-0 ma-0" plain v-bind="attrs" v-on="on">Faktura</v-btn> -->
                   </template>
@@ -234,7 +233,7 @@ export default {
               icon: "mdi-format-list-bulleted",
 
               link: "/offer/create",
-              data: { },
+              data: {},
               submenu: [],
             },
 
@@ -242,7 +241,7 @@ export default {
               text: "Klient i ri",
               icon: "mdi-plus-circle",
               link: "/offer/create",
-              data: {  },
+              data: {},
               submenu: [],
             },
             {
@@ -251,17 +250,17 @@ export default {
               submenu: [
                 {
                   text: "Kategorite e klientit",
-              icon: "mdi-format-list-bulleted",
+                  icon: "mdi-format-list-bulleted",
 
                   link: "/offer/create",
-                  data: {  },
+                  data: {},
                 },
 
                 {
                   text: "Kategori e re",
                   icon: "mdi-plus-circle",
                   link: "/offer/create",
-                  data: {  },
+                  data: {},
                 },
               ],
             },
@@ -343,6 +342,20 @@ export default {
                   data: null,
                 },
               ],
+              data: null,
+            },
+            {
+              text: "Kategorite e artikujve",
+              icon: "mdi-alpha-k-box-outline",
+              link: "/product/category",
+              submenu: [],
+              data: null,
+            },
+                    {
+              text: "Njesite matese",
+              icon: "mdi-alpha-k-box-outline",
+              link: "/product/category",
+              submenu: [],
               data: null,
             },
           ],

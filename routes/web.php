@@ -68,7 +68,10 @@ Route::middleware(['auth', 'auth'])->group(function () {
     Route::get('/offer/today', 'OfferController@show_today_offers');
     Route::resource('/offer', 'OfferController');
     Route::get('/offer/print/{offer}', 'OfferController@print');
+
+    Route::resource('/product/category', 'CategoryController');
     Route::resource('/product', 'ProductController');
+
     Route::resource('/client', 'ClientController');
     Route::resource('/supplier', 'SupplierController');
     Route::resource('/brand', 'BrandController');

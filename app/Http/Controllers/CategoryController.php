@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Requests\StoreProductCategoryRequest;
+use App\Http\Requests\UpdateProductCategoryRequest;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
@@ -14,7 +17,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::query()
+
+            ->orderBy('created_at', 'DESC')->get();
+        return Inertia::render('Product/Category/Index', ['categories' => $categories]);
+
     }
 
     /**
@@ -33,9 +40,18 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductCategoryRequest $request)
     {
-        //
+        $request->validated();
+
+        $new_category = new Category();
+        $new_category->name = $request->input('name');
+        $new_category->user_id = $request->user()->id;
+
+
+        $new_category->save();
+
+        return redirect('product/category')->with('success','Kategoria u shtua!');
     }
 
     /**
@@ -46,7 +62,10 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+
+        return Inertia::render('Product/Category/View', ['category' => $category]);
+
+
     }
 
     /**
@@ -67,9 +86,20 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateProductCategoryRequest $request, Category $category)
     {
-        //
+        $request->validated();
+
+
+
+        $category->name = $request->input('name');
+        $category->user_id = $request->user()->id;
+        $category->save();
+
+
+
+
+        return redirect('/product/category')->with('success','Ndryshimet u ruajten.');
     }
 
     /**

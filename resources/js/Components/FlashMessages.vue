@@ -33,9 +33,9 @@
       <span v-if="$page.props.errors.not_found"> {{$page.props.errors.not_found}} </span>
       <span v-else>
 
-      <spans v-if="Object.keys($page.props.errors).length === 1 "
+      <span v-if="Object.keys($page.props.errors).length === 1 "
         >Nje nga te dhenat e derguara eshte gabim.
-      </spans>
+      </span>
       <span v-else>
         Jane {{ Object.keys($page.props.errors).length }} gabime ne te dhenat e
         derguara.</span
