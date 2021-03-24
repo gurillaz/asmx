@@ -268,7 +268,7 @@ export default {
         },
 
         {
-          text: "Artikuj",
+          text: "Artikujt",
           items: [
             {
               text: "Hap artikullin",
@@ -353,8 +353,8 @@ export default {
             },
                     {
               text: "Njesite matese",
-              icon: "mdi-alpha-k-box-outline",
-              link: "/product/category",
+              icon: "mdi-ruler-square-compass",
+              link: "/product/unit",
               submenu: [],
               data: null,
             },

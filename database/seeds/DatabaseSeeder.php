@@ -79,6 +79,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
+          //Units
+          factory(App\MeasuringUnit::class, 10)->create([
+            'user_id' => $user->id,
+        ]);
+
         $categories_id = Category::all()->pluck('id');
 
 

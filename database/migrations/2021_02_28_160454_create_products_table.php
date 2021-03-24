@@ -24,7 +24,6 @@ class CreateProductsTable extends Migration
             $table->string('producer_no');
             $table->string('barcode')->nullable();
             $table->enum('quality',['0','1','2','3','4','5'])->nullable();
-            $table->string('measuring_unit');
             $table->double('weight')->default(0);
             $table->text('info')->nullable();
             $table->unsignedInteger('picies_in_set')->nullable();
@@ -42,6 +41,7 @@ class CreateProductsTable extends Migration
 
             $table->unsignedBigInteger('brand_id');
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('measuring_unit_id');
             $table->unsignedBigInteger('supplier_id');
             $table->unsignedBigInteger('user_id');
 
@@ -49,6 +49,7 @@ class CreateProductsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onUpdate('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade');
+            $table->foreign('measuring_unit_id')->references('id')->on('measuring_units')->onUpdate('cascade');
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onUpdate('cascade');
 
             $table->timestamps();

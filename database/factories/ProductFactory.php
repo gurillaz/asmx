@@ -3,6 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Category;
+use App\MeasuringUnit;
 use App\Product;
 use App\Subject;
 use App\Supplier;
@@ -21,8 +22,10 @@ $factory->define(Product::class, function (Faker $faker) {
     $cost = $buying_price * $faker->randomFloat(2, 1.1, 2);
 
     $category = Category::query()->get()->random();
+    $unit = MeasuringUnit::query()->get()->random();
 
     $category_id = $category->id;
+    $unit_id = $unit->id;
 
     return [
         'name' => $faker->sentence(6),
@@ -33,7 +36,6 @@ $factory->define(Product::class, function (Faker $faker) {
         'producer_no' => $producer_no,
         'barcode' => Str::limit($faker->uuid, 12, ''),
         'quality' => $faker->randomElement(['0', '1', '2', '3', '4', '5']),
-        'measuring_unit' => $faker->randomElement(['kg', 'cope', 'liter']),
         'weight' => $faker->randomFloat(2, 0.5, 20),
         'info' => $faker->text(random_int(20, 100)),
         'picies_in_set' => $faker->numberBetween(1, 5),
@@ -49,6 +51,7 @@ $factory->define(Product::class, function (Faker $faker) {
 
         'supplier_id' => $supplier_id,
         'category_id' => $category_id,
+        'measuring_unit_id' => $unit_id,
 
     ];
 });

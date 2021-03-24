@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class UpdateProductCategoryRequest extends FormRequest
+class StoreMeasuringUnitRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,8 @@ class UpdateProductCategoryRequest extends FormRequest
 
         return [
 
-            'name'=>'required|min:2|max:100',
+            'name' => 'required|min:2|max:30',
+            'info' => 'max:300',
         ];
     }
 
@@ -35,6 +36,7 @@ class UpdateProductCategoryRequest extends FormRequest
     {
         return [
             'name' => 'Emri',
+            'info' => 'Info shtese',
 
 
         ];

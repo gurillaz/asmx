@@ -70,6 +70,7 @@ Route::middleware(['auth', 'auth'])->group(function () {
     Route::get('/offer/print/{offer}', 'OfferController@print');
 
     Route::resource('/product/category', 'CategoryController');
+    Route::resource('/product/unit', 'MeasuringUnitController');
     Route::resource('/product', 'ProductController');
 
     Route::resource('/client', 'ClientController');
