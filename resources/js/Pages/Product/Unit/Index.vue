@@ -104,7 +104,7 @@
                     prepend-inner-icon="mdi-magnify"
                     background-color="gray lighten-4"
                     clearable
-                    placeholder="Kerko kategorite"
+                    placeholder="Kerko njesite matese"
                     autofocus
                     v-model="units_search"
                   >
@@ -113,7 +113,7 @@
                 <v-spacer></v-spacer>
                 <v-col cols="auto" class="py-0 my-0 text-center">
                   <v-card-title class="white--text">
-                    Lista e kategorive te artikujve
+                    Lista e njesive matese
                   </v-card-title>
                 </v-col>
                 <v-spacer></v-spacer>
@@ -139,7 +139,7 @@
           >
             <template v-slot:item.actions="{ item }">
                <inertia-link
-                :href="route + '/product/category/' + item.id"
+                :href="route + '/product/unit/' + item.id"
                 as="button"
                 block
               >
@@ -188,7 +188,7 @@ export default {
           sortable: false,
         },
         {
-          text: "Kategoria",
+          text: "Nj. matese",
           value: "name",
           width: "49%",
         },

@@ -284,7 +284,36 @@ export default {
               submenu: [],
               data: null,
             },
+            {
+              text: "Porosite",
+              icon: "mdi-package-variant",
+              submenu: [
+                {
+                  text: "Porosi e re",
+                  icon: "mdi-plus-circle",
+                  link: "/product/order/create",
+                  submenu: [],
+                  data: null,
+                },
 
+                {
+                  text: "Porosit ne pritje",
+                  icon: "mdi-format-list-bulleted",
+
+                  link: "/product/order/create",
+                  submenu: [],
+                  data: null,
+                },
+
+                {
+                  text: "Porosite e perfunduara",
+                  icon: "mdi-format-list-bulleted",
+                  link: "/product/order",
+                  submenu: [],
+                  data: null,
+                },
+              ],
+            },
             {
               text: "Importo artikujt",
               icon: "mdi-import",
@@ -342,8 +371,8 @@ export default {
                   data: null,
                 },
               ],
-              data: null,
             },
+
             {
               text: "Kategorite e artikujve",
               icon: "mdi-alpha-k-box-outline",
@@ -351,7 +380,7 @@ export default {
               submenu: [],
               data: null,
             },
-                    {
+            {
               text: "Njesite matese",
               icon: "mdi-ruler-square-compass",
               link: "/product/unit",

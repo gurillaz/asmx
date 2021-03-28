@@ -24,7 +24,7 @@ $factory->define(Supplier::class, function (Faker $faker) {
         // $table->foreign('subject_id')->references('id')->on('subjects')->onUpdate('cascade');
         // $table->timestamps();
 
-        'first_name' => $faker->firstName(),
+        'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'phone_1' => $faker->phoneNumber,
         'phone_2' => $faker->phoneNumber,

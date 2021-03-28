@@ -31,7 +31,8 @@ class CreateProductsTable extends Migration
             $table->unsignedDouble('cost');
             $table->unsignedDouble('tax_rate');
             $table->unsignedDouble('fixed_selling_price')->nullable();
-            $table->bigInteger('stock')->nullable();
+
+            $table->decimal('stock')->nullable();
 
             $table->unsignedDecimal('minimal_stock')->nullable();
             $table->unsignedDecimal('maximal_stock')->nullable();

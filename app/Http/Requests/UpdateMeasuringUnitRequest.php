@@ -25,9 +25,10 @@ class UpdateMeasuringUnitRequest extends FormRequest
     public function rules()
     {
 
+        $unit = $this->route('measuringUnit');
         return [
 
-            'name'=>'required|min:3|max:100',
+            'name'=>'required|min:3|max:100|unique:measuring_units,name,'.$unit->id,
             'info'=>'max:300',
         ];
     }

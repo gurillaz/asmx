@@ -16,6 +16,11 @@ class Profacture extends Model
         return $this->belongsTo(Client::class);
     }
 
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
 
     public function products()
     {

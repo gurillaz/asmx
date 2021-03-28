@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class UpdateProductCategoryRequest extends FormRequest
+class StoreOrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,18 +25,20 @@ class UpdateProductCategoryRequest extends FormRequest
     public function rules()
     {
 
-        $category = $this->route('category');
+
         return [
 
-            'name'=>'required|min:3|max:100|unique:categories,name,'.$category->id,
+            'supplier_id' => 'required|exists:suppliers,id',
+            'stock_type' => 'required|in:minimal_stock,maximal_stock,none',
         ];
     }
 
     public function attributes()
     {
         return [
-            'name' => 'Emri',
 
+            'supplier_id' => 'Furnitori',
+            'stock_type' => 'Sipas stokut',
 
         ];
     }

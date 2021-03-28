@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Client;
-use App\Http\Requests\AddProductToOfferRequest;
+use App\Http\Requests\AddProductToProfactureRequest;
 use App\Http\Requests\RemoveProductFromOfferRequest;
 use App\ListType;
 use App\Product;
@@ -197,7 +197,7 @@ class OfferController extends Controller
      * @param
      * @return \Illuminate\Http\Response
      */
-    public function add_product(AddProductToOfferRequest $request)
+    public function add_product(AddProductToProfactureRequest $request)
     {
         $request->validated();
 

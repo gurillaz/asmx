@@ -27,7 +27,7 @@ class StoreMeasuringUnitRequest extends FormRequest
 
         return [
 
-            'name' => 'required|min:2|max:30',
+            'name' => 'required|min:2|max:30|unique:measuring_units,name',
             'info' => 'max:300',
         ];
     }

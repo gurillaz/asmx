@@ -22,7 +22,7 @@ class MeasuringUnit extends Model
 
     public function getCreatedByAttribute()
     {
-        return $this->user()->first('name')->name;
+        return $this->user()->select("name")->get()->pluck('name');
     }
 
     public function getProductCountAttribute()

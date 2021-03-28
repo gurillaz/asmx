@@ -69,6 +69,8 @@ Route::middleware(['auth', 'auth'])->group(function () {
     Route::resource('/offer', 'OfferController');
     Route::get('/offer/print/{offer}', 'OfferController@print');
 
+    Route::resource('/product/order', 'OrderController');
+
     Route::resource('/product/category', 'CategoryController');
     Route::resource('/product/unit', 'MeasuringUnitController');
     Route::resource('/product', 'ProductController');
@@ -87,11 +89,13 @@ Route::middleware(['auth', 'auth'])->group(function () {
 
 
 //Test can delete
-Route::get('/document/crud', function () {
-    //TODO check for session private or public
-    $document_types = DocumentType::all();
-    return Inertia::render('DocumentCrud', ['document_types' => $document_types]);
-})->middleware(['auth', 'c'])->name('documentcrud');
+Route::get('/excel', function () {
+
+
+
+
+    return Inertia::render('DocumentCrud');
+});
 
 //Test can delete
 

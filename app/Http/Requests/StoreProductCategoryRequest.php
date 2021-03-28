@@ -26,7 +26,7 @@ class StoreProductCategoryRequest extends FormRequest
     {
 
         return [
-            'name'=>'required|min:3|max:100',
+            'name'=>'required|min:3|max:100|unique:categories,name',
 
         ];
     }

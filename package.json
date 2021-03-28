@@ -32,6 +32,7 @@
         "vue-easytable": "^2.4.0",
         "vue-keypress": "^2.1.1",
         "vuejs-spreadsheet": "^2.1.7",
-        "vuetify": "^2.4.4"
+        "vuetify": "^2.4.4",
+        "xlsx": "^0.16.9"
     }
 }
