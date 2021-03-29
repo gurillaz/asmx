@@ -13,9 +13,8 @@ use Illuminate\Support\Str;
 $factory->define(Product::class, function (Faker $faker) {
     $producer_no = Str::limit($faker->uuid, 7, '');
 
-    $suppliers =    Supplier::with('subject:id')->get();
+    $suppliers =    Subject::all();
     $random_supplier = $suppliers->random();
-    $supplier_subject_id = $random_supplier->subject->id;
     $supplier_id = $random_supplier->id;
 
     $buying_price = $faker->randomFloat(2, 0.5, 200);
@@ -30,7 +29,7 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         'name' => $faker->sentence(6),
         'second_name' => $faker->sentence(4),
-        'stock_no' => $producer_no . '-' . $supplier_subject_id,
+        'stock_no' => $producer_no . '-' . $supplier_id,
         'original_no' => Str::limit($faker->uuid, 4, ''),
         'supplier_no' => $producer_no,
         'producer_no' => $producer_no,

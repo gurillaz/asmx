@@ -224,7 +224,7 @@ export default {
             {
               text: "Hap klientin",
               icon: "mdi-folder-open",
-              link: "/offer/create",
+              link: "/client/create",
               data: { new_subject_type: "client" },
               submenu: [],
             },
@@ -232,7 +232,7 @@ export default {
               text: "Lista e klienteve",
               icon: "mdi-format-list-bulleted",
 
-              link: "/offer/create",
+              link: "/client",
               data: {},
               submenu: [],
             },
@@ -240,7 +240,7 @@ export default {
             {
               text: "Klient i ri",
               icon: "mdi-plus-circle",
-              link: "/offer/create",
+              link: "/client/create",
               data: {},
               submenu: [],
             },

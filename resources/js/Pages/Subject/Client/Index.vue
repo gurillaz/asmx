@@ -24,11 +24,11 @@
                   </v-text-field>
                 </v-col>
                     <v-spacer></v-spacer>
-                <v-cols cols="3">
+                <v-col cols="3">
                     <v-card-title  class="white--text">
                         Lista e klienteve
                     </v-card-title>
-                </v-cols>
+                </v-col>
                 <v-spacer></v-spacer>
                 <v-col cols="3" class="text-right">
                   <v-btn color="primary" dark depressed>
@@ -82,18 +82,18 @@ export default {
       headers: [
         {
           text: "# Unik",
-          value: "subject.id",
+          value: "id",
           width: "6%",
           sortable: false,
         },
         {
           text: "Subjekti",
-          value: "subject.name",
+          value: "name",
           width: "20%",
         },
         {
           text: "Vendi/Qyteti",
-          value: "subject.city",
+          value: "city",
           width: "19%",
           align: "center",
         },
@@ -111,7 +111,7 @@ export default {
         },
         {
           text: "Nr. fiskal",
-          value: "subject.fiscal_no",
+          value: "fiscal_no",
           width: "8%",
         },
         {

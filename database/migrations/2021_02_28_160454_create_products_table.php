@@ -51,7 +51,7 @@ class CreateProductsTable extends Migration
             $table->foreign('brand_id')->references('id')->on('brands')->onUpdate('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade');
             $table->foreign('measuring_unit_id')->references('id')->on('measuring_units')->onUpdate('cascade');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onUpdate('cascade');
+            $table->foreign('supplier_id')->references('id')->on('subjects')->onUpdate('cascade');
 
             $table->timestamps();
 

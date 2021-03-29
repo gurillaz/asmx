@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/offer/remove_product', 'OfferController@remove_product');
 
     Route::post('/order/add_product', 'OrderController@add_product');
+    Route::post('/order/remove_product', 'OrderController@remove_product');
 
 });
 

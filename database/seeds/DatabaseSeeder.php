@@ -47,24 +47,29 @@ class DatabaseSeeder extends Seeder
             'user_id' => $user->id,
         ]);
 
-        factory(App\Subject::class, 30)->create([
-            'user_id' => $user->id,
-        ]);
 
-        //CLIENTS
+        //Subjects
         $price_levels_ids = PriceLevel::all()->pluck('id');
-        $subjects_ids = Subject::all()->pluck('id');
-        factory(App\Client::class, 40)->create([
+
+        factory(App\Subject::class, 30)->create([
             'price_level_id' => $price_levels_ids->random(),
-            'subject_id' => $subjects_ids->random(),
             'user_id' => $user->id,
         ]);
 
-        //Suppliers
-        factory(App\Supplier::class, 20)->create([
-            'subject_id' => $subjects_ids->random(),
-            'user_id' => $user->id,
-        ]);
+        // //CLIENTS
+        // $price_levels_ids = PriceLevel::all()->pluck('id');
+        // $subjects_ids = Subject::all()->pluck('id');
+        // factory(App\Client::class, 40)->create([
+        //     'price_level_id' => $price_levels_ids->random(),
+        //     'subject_id' => $subjects_ids->random(),
+        //     'user_id' => $user->id,
+        // ]);
+
+        // //Suppliers
+        // factory(App\Supplier::class, 20)->create([
+        //     'subject_id' => $subjects_ids->random(),
+        //     'user_id' => $user->id,
+        // ]);
 
 
         //Brands

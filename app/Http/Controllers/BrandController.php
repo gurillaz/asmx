@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Brand;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\UpdateBrandRequest;
+use App\Subject;
 use App\Supplier;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -36,7 +37,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        $suppliers = Supplier::select(['id', 'subject_id'])->with('subject:id,name')->get();
+        $suppliers = Subject::select(['id', 'name'])->where('subject_type','supplier')->get();
         return Inertia::render('Brand/New', ['suppliers' => $suppliers]);
     }
 
@@ -82,7 +83,7 @@ class BrandController extends Controller
      */
     public function show(Brand $brand)
     {
-        $suppliers = Supplier::select(['id', 'subject_id'])->with('subject:id,name')->get();
+        $suppliers = Subject::select(['id', 'name'])->where('subject_type','supplier')->get();
 
         // $brand = Brand::where('id',$brand_id)->with('suppliers:id')->first();
         // $brand->suppliers = $brand->suppliers->map(function($supplier){

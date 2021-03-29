@@ -36,7 +36,7 @@
                     <v-autocomplete
                       class="mt-3"
                       :items="suppliers"
-                      item-text="subject.name"
+                      item-text="name"
                       item-value="id"
                       outlined
                       background-color="grey lighten-5"

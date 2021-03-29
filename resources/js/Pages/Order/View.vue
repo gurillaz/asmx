@@ -48,15 +48,10 @@
                     <v-icon right small>mdi-import</v-icon></v-btn
                   >
 
-                  <inertia-link
-                    :href="route + '/order/print/' + order.id"
-                    style="text-decoration: none"
+                  <v-btn depressed class="mr-3" @click="export_excel()">
+                    Excel export
+                    <v-icon right small>mdi-printer</v-icon></v-btn
                   >
-                    <v-btn depressed class="mr-3">
-                      Excel export
-                      <v-icon right small>mdi-printer</v-icon></v-btn
-                    >
-                  </inertia-link>
 
                   <inertia-link
                     :href="route + '/document-type'"
@@ -90,44 +85,44 @@
                   <p class="text-info caption pb-0 mb-0">Furnziuesi:</p>
                   <p class="py-0 my-0">
                     [
-                    {{ order.supplier.id }}
+                    {{ order.subject.id }}
                     ] -
-                    {{ order.supplier.subject.name }}
+                    {{ order.subject.name }}
                   </p>
                 </v-col>
 
                 <v-col cols="auto">
                   <p class="text-info caption pb-0 mb-0">Qyteti/Adresa:</p>
                   <p class="py-0 my-0">
-                    {{ order.supplier.subject.city }}
+                    {{ order.subject.city }}
                   </p>
                 </v-col>
 
                 <v-col cols="auto">
                   <p class="text-info caption pb-0 mb-0">:</p>
                   <p class="py-0 my-0">
-                    {{ order.supplier.subject.address }}
+                    {{ order.subject.address }}
                   </p>
                 </v-col>
                 <v-col cols="auto">
                   <p class="text-info caption pb-0 mb-0">Personi kontaktues:</p>
                   <p class="py-0 my-0">
-                    {{ order.supplier.first_name }}
-                    {{ order.supplier.last_name }}
+                    {{ order.subject.first_name }}
+                    {{ order.subject.last_name }}
                   </p>
                 </v-col>
 
                 <v-col cols="auto">
                   <p class="text-info caption pb-0 mb-0">Telefon(1):</p>
                   <p class="py-0 my-0">
-                    {{ order.supplier.phone_1 }}
+                    {{ order.subject.phone_1 }}
                   </p>
                 </v-col>
 
                 <v-col cols="auto">
                   <p class="text-info caption pb-0 mb-0">Email:</p>
                   <p class="py-0 my-0">
-                    {{ order.supplier.email }}
+                    {{ order.subject.email }}
                   </p>
                 </v-col>
 
@@ -160,11 +155,13 @@
             </v-container>
             <v-divider class="mt-0"></v-divider>
           </v-sheet>
+
           <v-data-table
             dense
             :headers="headers"
             :items="order.products"
-            item-key="product_order_no"
+            item-key="id"
+            :items-per-page="order.products.length"
             hide-default-footer
           >
             <template v-slot:item.actions="{ item }">
@@ -277,7 +274,11 @@
                 block
                 outlined
                 color="green"
-                :disabled="imported_excel_products_found.length == 0"
+                :disabled="
+                  imported_excel_products_found.length == 0 ||
+                  all_valid_rows_imported ||
+                  import_loading
+                "
               >
                 Shto ne porosi
                 <v-icon dark right>mdi-import</v-icon>
@@ -422,10 +423,11 @@ export default {
       add_product_dialog: false,
       product_search_dialog: "",
 
-      import_excel_dialog: true,
+      import_excel_dialog: false,
       imported_file: null,
       imported_excel_products_found: [],
       imported_excel_products_not_found: [],
+      import_loading: false,
 
       imported_excel_products_found_table_headers: [
         {
@@ -682,15 +684,16 @@ export default {
     remove_product(product) {
       if (confirm("Konfirmo fshirjen e artikullit!")) {
         var data = new FormData();
-        data.append("order_id", this.order.id || "");
+        data.append("profacture_id", this.order.id || "");
         data.append("product_id", product.id || "");
 
         axios
           .post("/api/order/remove_product", data)
           .then((response) => {
             //   console.log(response.data.products);
-
-            this.order.products = response.data.products;
+            this.order.products = this.order.products.filter((item) => {
+              return item.id !== product.id;
+            });
           })
           .catch((error) => {
             this.errors = error.response.data.errors;
@@ -701,24 +704,29 @@ export default {
       var data = new FormData();
       data.append("profacture_id", this.order.id || "");
       data.append("product_id", product.id || "");
-      data.append("quantity", product.quantity || "");
+      data.append("quantity", product.quantity || 1);
 
       axios
         .post("/api/order/add_product", data)
         .then((response) => {
           //   console.log(response.data.products);
 
-          this.order.products = response.data.products;
+          this.order.products.push(response.data.product);
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
+          this.import_loading = false;
         });
     },
 
-    add_imported_products(){
-        this.imported_excel_products_found.forEach(product=>{
-            this.add_product(product);
-        });
+    add_imported_products() {
+      this.import_loading = true;
+
+      this.imported_excel_products_found.forEach((product) => {
+        if (!this.product_already_in_order(product.id)) {
+          this.add_product(product);
+        }
+      });
     },
 
     update_order() {
@@ -792,19 +800,63 @@ export default {
       reader.readAsBinaryString(selectedFile);
     },
 
+    export_excel() {
+      if (this.order.products.length == 0) {
+        alert("Nuk ka artikuj per te eksportuar");
+        return;
+      }
+      var formated_data = [];
+      this.order.products.forEach((item) => {
+        var tmp_product = {};
+
+        tmp_product["Artikulli nr."] = item.product_order_no;
+        tmp_product["Numri unik"] = item.id;
+        tmp_product["Emertimi"] = item.custom_product_name;
+        tmp_product["Numri i furnizuesit"] = item.supplier_no;
+        tmp_product["Brendi"] = item.brand_name;
+        tmp_product["Sasia porosi(cope)"] = item.quantity;
+        tmp_product["Cmimi i blerjes(pa TVSH)"] = item.buying_price;
+
+        formated_data.push(tmp_product);
+      });
+
+      var sheet = XLSX.utils.json_to_sheet(formated_data);
+
+      /* add to workbook */
+      var workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, sheet, "Exported");
+
+      /* generate an XLSX file */
+      var now = this.moment().format("DD-MM-YY-HH-mm");
+      XLSX.writeFile(
+        workbook,
+        "porosia_" + this.order.id + "_" + now + ".xlsx"
+      );
+    },
+
     clear_file_input() {
       this.imported_file = null;
       this.imported_excel_products_found = [];
       this.imported_excel_products_not_found = [];
+      this.import_loading = false;
     },
   },
 
   computed: {
+    all_valid_rows_imported() {
+      var result = true;
+
+      this.imported_excel_products_found.forEach((item) => {
+        result = result && this.product_already_in_order(item.id);
+      });
+
+      return result;
+    },
     order_quantity() {
       var total = 0;
 
       this.order.products.forEach((item) => {
-        total = total + item.quantity;
+        total = total + parseFloat(item.quantity);
       });
       return Math.round(total * 100) / 100;
     },

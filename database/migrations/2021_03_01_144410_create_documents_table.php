@@ -30,15 +30,13 @@ class CreateDocumentsTable extends Migration
 
 
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('client_id')->nullable();
-            $table->unsignedBigInteger('supplier_id')->nullable();
+            $table->unsignedBigInteger('subject_id')->nullable();
             $table->unsignedBigInteger('document_type_id');
 
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
-            $table->foreign('client_id')->references('id')->on('clients')->onUpdate('cascade');
             $table->foreign('document_type_id')->references('id')->on('document_types')->onUpdate('cascade');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onUpdate('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onUpdate('cascade');
 
 
 

@@ -8,20 +8,9 @@ use Faker\Generator as Faker;
 $factory->define(Subject::class, function (Faker $faker) {
     return [
 
-        // $table->id();
-        // $table->string('name');
-        // $table->string('bank_account_no')->nullable();
-        // $table->string('bank_name')->nullable();
-        // $table->string('fiscal_no')->nullable();
-        // $table->string('address')->nullable();
-        // $table->string('city')->nullable();
-        // $table->string('postal_code')->nullable();
-        // $table->string('country')->nullable();
 
-        // $table->unsignedBigInteger('user_id');
-        // $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
 
-        // $table->timestamps();
+
 
 
         'name' => $faker->company,
@@ -32,6 +21,21 @@ $factory->define(Subject::class, function (Faker $faker) {
         'city' => $faker->city,
         'postal_code' => $faker->postcode,
         'country' => $faker->country,
+
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
+        'phone_1' => $faker->phoneNumber,
+        'phone_2' => $faker->phoneNumber,
+        'email' => $faker->email,
+        'website' => $faker->url,
+        'info' => $faker->text(50),
+
+        'subject_type' => $faker->randomElement(['client', 'supplier']),
+
+
+        'credit_limit' => $faker->numberBetween(0,999),
+        'payment_limit_days' => $faker->numberBetween(0,30),
+        'price_increase_quota' => $faker->randomFloat(2,1,2),
 
     ];
 });

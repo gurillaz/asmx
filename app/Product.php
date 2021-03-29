@@ -16,7 +16,7 @@ class Product extends Model
 
     public function supplier()
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->belongsTo(Subject::class);
     }
 
     public function brand()
@@ -24,10 +24,6 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
-    public function subject()
-    {
-        return $this->hasManyThrough(Subject::class,'supplier_id','subject_id');
-    }
 
 
     protected static function boot()

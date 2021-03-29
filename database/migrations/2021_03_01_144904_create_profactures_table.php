@@ -24,14 +24,13 @@ class CreateProfacturesTable extends Migration
             $table->string('status')->nullable();
 
             $table->unsignedBigInteger('list_type_id');
-            $table->unsignedBigInteger('client_id')->nullable();
-            $table->unsignedBigInteger('supplier_id')->nullable();
+            $table->unsignedBigInteger('subject_id')->nullable();
+
             $table->unsignedBigInteger('user_id');
 
             $table->foreign('list_type_id')->references('id')->on('list_types')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
-            $table->foreign('client_id')->references('id')->on('clients')->onUpdate('cascade');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onUpdate('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onUpdate('cascade');
 
 
             $table->timestamps();

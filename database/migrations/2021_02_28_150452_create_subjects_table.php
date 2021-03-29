@@ -24,10 +24,37 @@ class CreateSubjectsTable extends Migration
             $table->string('postal_code')->nullable();
             $table->string('country')->nullable();
 
+            $table->enum('subject_type',['supplier','client','other']);
+
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('phone_1');
+            $table->string('phone_2')->nullable();
+            $table->string('email')->nullable();
+
+
+
+            $table->text('info')->nullable();
+
+
+            $table->string('website')->nullable();
+            $table->unsignedInteger('credit_limit')->nullable();
+            $table->unsignedInteger('payment_limit_days')->nullable();
+            $table->unsignedDouble('price_increase_quota')->default('1');
+
+            $table->unsignedBigInteger('price_level_id')->nullable();
+
             $table->unsignedBigInteger('user_id');
+
+
+
+            $table->foreign('price_level_id')->references('id')->on('price_levels')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
 
             $table->timestamps();
+
+
+
         });
 
         DB::update("ALTER TABLE subjects AUTO_INCREMENT = 100;");

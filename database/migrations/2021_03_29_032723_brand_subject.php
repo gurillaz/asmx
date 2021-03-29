@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class BrandSupplier extends Migration
+class BrandSubject extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class BrandSupplier extends Migration
      */
     public function up()
     {
-        Schema::create('brand_supplier', function (Blueprint $table) {
+
+        Schema::create('brand_subject', function (Blueprint $table) {
 
             $table->unsignedBigInteger('brand_id');
-            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('subject_id');
 
 
             $table->foreign('brand_id')->references('id')->on('brands')->onUpdate('cascade');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onUpdate('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onUpdate('cascade');
 
 
             $table->timestamps();
@@ -35,6 +36,9 @@ class BrandSupplier extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brand_supplier');
+        //
+
+        Schema::dropIfExists('brand_subject');
+
     }
 }

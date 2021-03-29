@@ -34,7 +34,7 @@ class StoreBrandRequest extends FormRequest
             'producing_company' => 'required|max:30',
             'producing_country' => 'required|max:30',
             'supplier_ids' => 'required|array',
-            'supplier_ids.*' => 'required|exists:suppliers,id',
+            'supplier_ids.*' => 'required|exists:subjects,id',
         ];
     }
 

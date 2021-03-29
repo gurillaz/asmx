@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\PriceLevel;
 use App\Subject;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ClientController extends Controller
+class SubjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,13 +16,13 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $subjects = Subject::query()
+        $Subjects = Subject::query()
         ->where('subject_type','client')
         ->with('price_level:id,name')
-        ->select(['id','name','city','fiscal_no','first_name', 'last_name', 'price_level_id','phone_1'])
+        ->select(['id','name','city','fiscal_no','first_name', 'last_name', 'price_level_id', 'subject_id','phone_1'])
         ->get();
 
-        return Inertia::render('Subject/Client/Index', ['subjects' => $subjects]);
+        return Inertia::render('Subject/Subject/Index', ['Subjects' => $Subjects]);
     }
 
     /**
@@ -31,7 +32,10 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        $price_leveles = PriceLevel::all();
+
+        return Inertia::render('Subject/Subject/New', ['offer' => $price_leveles]);
+
     }
 
     /**
@@ -48,10 +52,10 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Subject  $subject
+     * @param  \App\Subject  $Subject
      * @return \Illuminate\Http\Response
      */
-    public function show(Subject $subject)
+    public function show(Subject $Subject)
     {
         //
     }
@@ -59,10 +63,10 @@ class ClientController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Subject  $subject
+     * @param  \App\Subject  $Subject
      * @return \Illuminate\Http\Response
      */
-    public function edit(Subject $subject)
+    public function edit(Subject $Subject)
     {
         //
     }
@@ -71,10 +75,10 @@ class ClientController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Subject  $subject
+     * @param  \App\Subject  $Subject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Subject $subject)
+    public function update(Request $request, Subject $Subject)
     {
         //
     }
@@ -82,10 +86,10 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Subject  $subject
+     * @param  \App\Subject  $Subject
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subject $subject)
+    public function destroy(Subject $Subject)
     {
         //
     }

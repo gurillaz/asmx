@@ -28,7 +28,7 @@ class StoreOrderRequest extends FormRequest
 
         return [
 
-            'supplier_id' => 'required|exists:suppliers,id',
+            'supplier_id' => 'required|exists:subjects,id',
             'stock_type' => 'required|in:minimal_stock,maximal_stock,none',
         ];
     }

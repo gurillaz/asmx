@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddProductToProfactureRequest;
+use App\Http\Requests\RemoveProductFromProfactureRequest;
 use App\Http\Requests\StoreOrderRequest;
 use App\ListType;
 use App\Product;
 use App\Profacture;
+use App\Subject;
 use App\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -32,10 +34,9 @@ class OrderController extends Controller
     public function create()
     {
         $suppliers =
-            Supplier::select()
-            ->with('subject:id,name,city')
+            Subject::select(['id','name','subject_type'])
+            ->where('subject_type','supplier')
             ->get();
-
         return Inertia::render('Order/New', ['suppliers' => $suppliers]);
     }
 
@@ -49,7 +50,7 @@ class OrderController extends Controller
     {
         $request->validated();
 
-        $supplier = Supplier::where($request->input('suplier_id'))->first();
+        $supplier = Subject::where($request->input('suplier_id'))->first();
 
         $products = Product::query()
 
@@ -67,7 +68,7 @@ class OrderController extends Controller
 
 
 
-        $order->supplier_id = $request->get('supplier_id');
+        $order->subject_id = $request->get('supplier_id');
         $order->list_type_id = $order_type_number->id;
 
 
@@ -118,11 +119,11 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Profacture::where('id', $id)
-            ->with('supplier.subject')
+            ->with('subject')
             // ->with('products')
             ->first();
         if (!$order) {
-            return redirect('order')->withErrors(['not_found' => 'Oferta nuk u gjet!']);
+            return redirect('order')->withErrors(['not_found' => 'Porosia nuk u gjet!']);
             // dd('Oferta nuk u gjet');
         }
         // dd($order->products);
@@ -132,7 +133,7 @@ class OrderController extends Controller
             $new_obj_product['product_order_no'] = $product->pivot->product_order_no;
             $new_obj_product['custom_product_name'] = $product->pivot->custom_product_name;
             $new_obj_product['quantity'] = $product->pivot->quantity;
-            $new_obj_product['buying_price  '] = $product->buying_price;
+            $new_obj_product['buying_price'] = $product->buying_price;
             $new_obj_product['discount'] = $product->pivot->discount;
 
             $new_obj_product['brand_name'] = $product->brand->name;
@@ -153,11 +154,30 @@ class OrderController extends Controller
         // return $order->products;
 
 
-        $products = Product::query()->where('supplier_id',$order->supplier_id)->with('brand')->get();
+        $products = Product::query()->where('supplier_id', $order->subject_id)->with('brand')->get();
 
 
 
         return Inertia::render('Order/View', ['order' => $order, 'products' => $products]);
+    }
+
+
+
+
+
+    public function remove_product(RemoveProductFromProfactureRequest $request)
+    {
+        $request->validated();
+
+        $order = Profacture::where('id', $request->get('profacture_id'))->with('products:id')->first();
+        // $product = Product::where('id', $request->get('product_id'))->first();
+
+
+
+        $order->products()->detach($request->get('product_id'));
+
+
+        return Response::json(200);
     }
 
 
@@ -178,40 +198,41 @@ class OrderController extends Controller
         $product = Product::where('id', $request->get('product_id'))->first();
 
 
+        $order_no = $order->products->count() + 1;
+        $custom_name = $product->name;
+        $quantity = $request->get('quantity');
+        $price = $product->buying_price;
 
         $order->products()->attach($product, [
-            'product_order_no' => $order->products->count() + 1,
-            'custom_product_name' => $product->name,
-            'quantity' => $request->get('quantity'),
-            'price' => $product->buying_price,
+            'product_order_no' => $order_no,
+            'custom_product_name' => $custom_name,
+            'quantity' => $quantity,
+            'price' => $price,
             'discount' => 0.0
         ]);
 
-        $order->refresh();
-        $order->products = $order->products->transform(function ($product) {
-            $new_obj_product['product_order_no'] = $product->pivot->product_order_no;
-            $new_obj_product['custom_product_name'] = $product->pivot->custom_product_name;
-            $new_obj_product['quantity'] = $product->pivot->quantity;
-            $new_obj_product['buying_price  '] = $product->buying_price;
-            $new_obj_product['discount'] = $product->pivot->discount;
-
-            $new_obj_product['brand_name'] = $product->brand->name;
-
-            $new_obj_product['stock'] = $product->stock;
-            $new_obj_product['maximal_stock'] = $product->maximal_stock;
-            $new_obj_product['minimal_stock'] = $product->minimal_stock;
 
 
-            $new_obj_product['supplier_no'] = $product->supplier_no;
-            $new_obj_product['stock_no'] = $product->stock_no;
-            $new_obj_product['original_no'] = $product->original_no;
-            $new_obj_product['id'] = $product->id;
-            return $new_obj_product;
 
-        });
+        $new_obj_product['product_order_no'] = $order_no;
+        $new_obj_product['custom_product_name'] = $custom_name;
+        $new_obj_product['quantity'] = $quantity;
+        $new_obj_product['buying_price'] = $price;
+
+        $new_obj_product['brand_name'] = $product->brand->name;
+
+        $new_obj_product['stock'] = $product->stock;
+        $new_obj_product['maximal_stock'] = $product->maximal_stock;
+        $new_obj_product['minimal_stock'] = $product->minimal_stock;
+
+
+        $new_obj_product['supplier_no'] = $product->supplier_no;
+        $new_obj_product['stock_no'] = $product->stock_no;
+        $new_obj_product['original_no'] = $product->original_no;
+        $new_obj_product['id'] = $product->id;
 
         return Response::json([
-            'products' => $order->products,
+            'product' => $new_obj_product,
         ], 200);
     }
 
