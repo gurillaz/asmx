@@ -96,29 +96,29 @@
                   <p class="text-info caption pb-0 mb-0">Klienti:</p>
                   <p class="py-0 my-0">
                     [
-                    {{ offer.client.id }}
+                    {{ offer.subject.id }}
                     ] -
-                    {{ offer.client.first_name }} {{ offer.client.last_name }}
+                    {{ offer.subject.contact_name }}
                   </p>
                 </v-col>
 
                 <v-col cols="auto">
                   <p class="text-info caption pb-0 mb-0">Lloji i klientit:</p>
                   <p class="py-0 my-0">
-                    {{ offer.client.client_type }}
+                    {{ offer.subject.subject_type }}
                   </p>
                 </v-col>
                 <v-col cols="auto">
                   <p class="text-info caption pb-0 mb-0">Subjekti:</p>
                   <p class="py-0 my-0">
-                    {{ offer.client.subject.name }}
+                    {{ offer.subject.name }}
                   </p>
                 </v-col>
 
                 <v-col cols="auto">
                   <p class="text-info caption pb-0 mb-0">Komuna/Qyteti:</p>
                   <p class="py-0 my-0">
-                    {{ offer.client.subject.city }}
+                    {{ offer.subject.city }}
                   </p>
                 </v-col>
 
@@ -127,7 +127,7 @@
                     Kategoria e klientit:
                   </p>
                   <p class="py-0 my-0">
-                    {{ offer.client.price_level.name }}
+                    {{ offer.subject.price_level.name }}
                   </p>
                 </v-col>
 
@@ -135,20 +135,20 @@
                   <p class="text-info caption pb-0 mb-0">Borxhi:</p>
                   <p class="py-0 my-0">
                     312 €
-                    <!-- {{ offer.client.credit_limit }} -->
+                    <!-- {{ offer.subject.credit_limit }} -->
                   </p>
                 </v-col>
 
                 <v-col cols="auto">
                   <p class="text-info caption pb-0 mb-0">Kredit Limiti:</p>
-                  <p class="py-0 my-0">{{ offer.client.credit_limit }} €</p>
+                  <p class="py-0 my-0">{{ offer.subject.credit_limit }} €</p>
                 </v-col>
                 <v-col cols="auto">
                   <p class="text-info caption pb-0 mb-0">
                     Afati i pageses per fature:
                   </p>
                   <p class="py-0 my-0">
-                    {{ offer.client.payment_limit_days }} dite
+                    {{ offer.subject.payment_limit_days }} dite
                   </p>
                 </v-col>
 

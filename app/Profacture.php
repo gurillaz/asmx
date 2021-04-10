@@ -17,6 +17,11 @@ class Profacture extends Model
         return $this->belongsTo(Subject::class);
     }
 
+    public function price_level()
+    {
+        return $this->belongsTo(PriceLevel::class);
+    }
+
 
     public function products()
     {

@@ -75,6 +75,10 @@ Route::middleware(['auth', 'auth'])->group(function () {
     Route::resource('/product/category', 'CategoryController');
     Route::resource('/product/unit', 'MeasuringUnitController');
 
+    Route::resource('/invoice/message', 'InvoiceMessageController');
+
+
+
     Route::get('/product/last', 'ProductController@show_last_product');
     Route::get('/product/import', 'ProductController@import_create');
     Route::post('/product/import_store', 'ProductController@import_store');
@@ -107,19 +111,18 @@ Route::get('/excel', function () {
 
 Route::get('/session', function (Request $request) {
 
-    $profacture = Profacture::where('id',10007)->first();
+    $profacture = Profacture::where('id', 10007)->first();
     $products = Product::all();
-    $random_product=$products->random();
-    $profacture->products()->attach($random_product,[
-        'product_order_no'=>$profacture->products->count()+1,
-         'custom_product_name'=>'Custom name'.$random_product->id,
-          'quantity'=>10,
-          'price' =>10.00,
-           'discount' =>0.1
+    $random_product = $products->random();
+    $profacture->products()->attach($random_product, [
+        'product_order_no' => $profacture->products->count() + 1,
+        'custom_product_name' => 'Custom name' . $random_product->id,
+        'quantity' => 10,
+        'price' => 10.00,
+        'discount' => 0.1
     ]);
 
     dd($profacture);
-
 });
 
 

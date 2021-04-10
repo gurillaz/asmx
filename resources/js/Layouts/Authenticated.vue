@@ -391,8 +391,17 @@ export default {
           ],
         },
         {
-          text: "Tjera",
-          items: [],
+           text: "Tjera",
+          items: [
+            {
+              text: "Mesazhet e faturave",
+              icon: "mdi-information-outline",
+              link: "/invoice/message",
+              submenu: [],
+              data: null,
+            },
+
+          ]
         },
       ],
     };

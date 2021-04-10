@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
 use App\Http\Requests\AddProductToProfactureRequest;
 use App\Http\Requests\RemoveProductFromOfferRequest;
 use App\ListType;
 use App\Product;
 use App\Profacture;
+use App\Subject;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -33,7 +33,7 @@ class OfferController extends Controller
         //TODO:get only Profactures with list_types offer
         $offers = Profacture::query()
 
-        ->with('client:id,first_name,last_name,subject_id')
+        ->with('subject')
         ->withCount('products')
         ->get(
             [
@@ -55,8 +55,11 @@ class OfferController extends Controller
     {
 
         $clients =
-            Client::select(['id', 'first_name', 'last_name', 'subject_id', 'price_level_id', 'client_type', 'phone_1'])
-            ->with('subject:id,name,city')->with('price_level:id,name')->get();
+            Subject::query()
+
+            // select(['id', 'first_name', 'last_name', 'subject_id', 'price_level_id', 'client_type', 'phone_1'])
+            // ->with('subject:id,name,city')
+            ->with('price_level:id,name')->get();
 
         return Inertia::render('Offer/New', ['clients' => $clients]);
     }
@@ -75,7 +78,7 @@ class OfferController extends Controller
         $id = DB::select("SHOW TABLE STATUS LIKE 'profactures'");
         $next_id = $id[0]->Auto_increment;
 
-        $offer->client_id = $request->get('client_id');
+        $offer->subject_id = $request->get('client_id');
         $offer->list_type_id = $offer_type_number->id;
 
 
@@ -96,9 +99,9 @@ class OfferController extends Controller
     public function print($id)
     {
         $offer = Profacture::where('id', $id)
-            ->with('client:id,name,price_level')
-            ->with('client.subject')
-            ->with('client.price_level')
+            // ->with('client:id,name,price_level')
+            ->with('subject')
+            ->with('subject.price_level')
             ->with('products')->first();
 
         $offer['products'] = $offer->products->map(function ($product) {
@@ -126,9 +129,9 @@ class OfferController extends Controller
     public function show($id)
     {
         $offer = Profacture::where('id', $id)
-            ->with('client:id,name,price_level')
-            ->with('client.subject')
-            ->with('client.price_level')
+            // ->with('client:id,name,price_level')
+            ->with('subject')
+            ->with('subject.price_level')
             // ->with('products')
             ->first();
         if (!$offer) {

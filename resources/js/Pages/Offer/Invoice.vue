@@ -26,9 +26,9 @@
     </v-row>
     <v-row class="mt-12">
       <v-col cols="6">
-        <span>Numri i klientit: {{ offer.client.id }}</span>
+        <span>Numri i klientit: {{ offer.subject.id }}</span>
         <br />
-        <b>{{ offer.client.subject.name }}</b>
+        <b>{{ offer.subject.name }}</b>
         <br />
         <b>--</b>
         <br />
