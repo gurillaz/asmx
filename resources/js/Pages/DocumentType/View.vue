@@ -63,7 +63,7 @@
                   <p class="text-info caption pb-0 mb-0">Modifikuar me:</p>
                   <p class="py-0 my-0">
                     {{
-                      moment(document_type_copy.modified_at).format(
+                      moment(document_type_copy.updated_at).format(
                         "DD-MM-YY HH:mm"
                       )
                     }}
@@ -212,6 +212,7 @@ export default {
 
   methods: {
     submit() {
+        this.$page.props.errors = {};
       if (!confirm("Ruaj ndryshimet?")) {
         return;
       }

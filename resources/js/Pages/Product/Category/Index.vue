@@ -123,7 +123,7 @@
             :headers="headers"
             :items="categories"
             :search="categories_search"
-            items-per-page="8"
+            :items-per-page="8"
           >
             <template v-slot:item.actions="{ item }">
                <inertia-link

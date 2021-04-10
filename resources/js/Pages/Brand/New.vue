@@ -160,6 +160,7 @@ export default {
 
   methods: {
     submit() {
+        this.$page.props.errors = {};
       var data = new FormData();
       data.append("name", this.new_brand.name || "");
       data.append("producing_company", this.new_brand.producing_company || "");

@@ -130,9 +130,9 @@
     </v-app-bar>
     <v-main class="auth-layout-bg-color">
       <v-container fluid>
-        <flash-messages />
         <!-- {{$page.props.flash}} -->
         <slot />
+        <flash-messages/>
       </v-container>
     </v-main>
     <Keypress
@@ -141,6 +141,7 @@
       @success="onevent"
       :modifiers="['altKey']"
     />
+
   </v-app>
 </template>
 
@@ -300,7 +301,7 @@ export default {
                   text: "Porosit ne pritje",
                   icon: "mdi-format-list-bulleted",
 
-                  link: "/product/order/create",
+                  link: "/product/order",
                   submenu: [],
                   data: null,
                 },
@@ -308,7 +309,7 @@ export default {
                 {
                   text: "Porosite e perfunduara",
                   icon: "mdi-format-list-bulleted",
-                  link: "/product/order",
+                  link: "/product/order/closed",
                   submenu: [],
                   data: null,
                 },
@@ -322,13 +323,13 @@ export default {
               data: null,
             },
 
-            {
-              text: "Filtro dhe eksporto artikujt",
-              icon: "mdi-export",
-              link: "/product/import",
-              submenu: [],
-              data: null,
-            },
+            // {
+            //   text: "Filtro dhe eksporto artikujt",
+            //   icon: "mdi-export",
+            //   link: "/product/import",
+            //   submenu: [],
+            //   data: null,
+            // },
 
             {
               text: "Brendet",
@@ -357,7 +358,7 @@ export default {
               icon: "mdi-truck-fast-outline",
               submenu: [
                 {
-                  text: "Lista e brendeve",
+                  text: "Lista e furnitoreve",
                   icon: "mdi-format-list-bulleted",
                   link: "/supplier",
                   submenu: [],

@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div >
     <v-snackbar
       :value="$page.props.flash.success != null && show"
       :timeout="3000"
-      absolute
+       style="positon:absolute!important;"
+
       bottom
       right
       color="green accent-4"
@@ -24,7 +25,8 @@
         show
       "
       :timeout="3000"
-      absolute
+       style="positon:absolute!important;"
+
       bottom
       right
       color="orange accent-4"

@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddProductToProfactureRequest;
 use App\Http\Requests\RemoveProductFromProfactureRequest;
 use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\UpdateProductQuantityOfProfactureRequest;
 use App\ListType;
 use App\Product;
 use App\Profacture;
 use App\Subject;
 use App\Supplier;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Inertia\Inertia;
@@ -23,7 +25,13 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Profacture::query()
+        // ->where('list_type','101')
+        ->where('status','waiting')
+        ->with('subject:id,name,contact_name,phone_1,user_id')
+        ->get();
+        return Inertia::render('Order/Index', ['orders' => $orders]);
+
     }
 
     /**
@@ -34,8 +42,8 @@ class OrderController extends Controller
     public function create()
     {
         $suppliers =
-            Subject::select(['id','name','subject_type'])
-            ->where('subject_type','supplier')
+            Subject::select(['id', 'name', 'user_id', 'subject_type'])
+            ->where('subject_type', 'supplier')
             ->get();
         return Inertia::render('Order/New', ['suppliers' => $suppliers]);
     }
@@ -73,7 +81,7 @@ class OrderController extends Controller
 
 
         $order->user_id = $request->user()->id;
-        $order->status = 'unconfirmed';
+        $order->status = 'waiting';
 
         $order->save();
 
@@ -116,6 +124,51 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function accept_order($id)
+    {
+        $order = Profacture::where('id', $id)
+            ->with('subject')
+            // ->with('products')
+            ->first();
+        if (!$order) {
+            return redirect('order')->withErrors(['not_found' => 'Porosia nuk u gjet!']);
+            // dd('Oferta nuk u gjet');
+        }
+        // dd($order->products);
+
+        $order['products'] = $order->products->transform(function ($product) {
+
+            $new_obj_product['product_order_no'] = $product->pivot->product_order_no;
+            $new_obj_product['custom_product_name'] = $product->pivot->custom_product_name;
+            $new_obj_product['quantity'] = $product->pivot->quantity;
+            $new_obj_product['buying_price'] = $product->buying_price;
+            $new_obj_product['discount'] = $product->pivot->discount;
+
+            $new_obj_product['brand_name'] = $product->brand->name;
+
+            $new_obj_product['stock'] = $product->stock;
+            $new_obj_product['maximal_stock'] = $product->maximal_stock;
+            $new_obj_product['minimal_stock'] = $product->minimal_stock;
+
+
+            $new_obj_product['supplier_no'] = $product->supplier_no;
+            $new_obj_product['stock_no'] = $product->stock_no;
+            $new_obj_product['original_no'] = $product->original_no;
+            $new_obj_product['id'] = $product->id;
+
+            return $new_obj_product;
+        });
+
+        // return $order->products;
+
+
+        $products = Product::query()->where('supplier_id', $order->subject_id)->with('brand')->get();
+
+
+
+        return Inertia::render('Order/Accept', ['order' => $order, 'products' => $products]);
+    }
     public function show($id)
     {
         $order = Profacture::where('id', $id)
@@ -233,6 +286,23 @@ class OrderController extends Controller
 
         return Response::json([
             'product' => $new_obj_product,
+        ], 200);
+    }
+
+    public function update_product_quantity(UpdateProductQuantityOfProfactureRequest $request)
+    {
+        $request->validated();
+
+
+        $order = Profacture::where('id', $request->get('profacture_id'))->first();
+
+
+        $order->products()->updateExistingPivot($request->get('product_id'), ['quantity' => $request->get('quantity')]);
+        $order->updated_at = Carbon::now()->toDateTime();
+        $order->save();
+
+        return Response::json([
+            'message' => "success",
         ], 200);
     }
 

@@ -31,7 +31,7 @@
                     flat
                     dense
                     label="Porosia"
-                    prefix="Porosia:"
+                    prefix="Pranimi:"
                     single-line
                     hide-details
                     v-model="resource_id"
@@ -59,9 +59,9 @@
                     class="mr-1"
                     color="green"
                     dark
-                    @click="accept_order()"
+                    @click="confirm_order()"
                   >
-                    Prano
+                    Ruaj
                     <v-icon right small>mdi-file-send-outline</v-icon></v-btn
                   >
                   <v-btn
@@ -106,14 +106,21 @@
                 <v-col cols="auto">
                   <p class="text-info caption pb-0 mb-0">Qyteti/Adresa:</p>
                   <p class="py-0 my-0">
-                    {{ order.subject.city }}/{{ order.subject.address }}
+                    {{ order.subject.city }}
                   </p>
                 </v-col>
 
                 <v-col cols="auto">
+                  <p class="text-info caption pb-0 mb-0">:</p>
+                  <p class="py-0 my-0">
+                    {{ order.subject.address }}
+                  </p>
+                </v-col>
+                <v-col cols="auto">
                   <p class="text-info caption pb-0 mb-0">Personi kontaktues:</p>
                   <p class="py-0 my-0">
-                    {{ order.subject.contact_name }}
+                    {{ order.subject.first_name }}
+                    {{ order.subject.last_name }}
                   </p>
                 </v-col>
 
@@ -631,23 +638,9 @@ export default {
           width: "20%",
           sortable: false,
         },
-        {
-          text: "Stoku minimal",
-          value: "minimal_stock",
-          width: "5%",
-          sortable: false,
-          align: "right",
-        },
-        {
-          text: "Stoku minimal",
-          value: "maximal_stock",
-          width: "5%",
-          sortable: false,
-          align: "right",
-        },
-        {
-          text: "Stoku momental",
-          value: "stock",
+                {
+          text: "Pranuar",
+          value: "quantity",
           width: "5%",
           sortable: false,
           align: "right",
@@ -694,13 +687,9 @@ export default {
       }
     },
     accept_order() {
-      if (!confirm("Konfirmo?")) {
-        return;
-
+      if (confirm("Konfirmo?")) {
+        alert("hurraaa");
       }
-      this.$inertia.get("/product/order/accept/" + this.order.id);
-
-      In
     },
     remove_product(product) {
       if (confirm("Konfirmo fshirjen e artikullit!")) {
@@ -770,7 +759,9 @@ export default {
       });
     },
 
-
+    update_order() {
+      this.$inertia.put("/order/" + this.order.id, {});
+    },
     product_already_in_order(item_id) {
       return this.order.products.some((item) => item.id === item_id);
     },

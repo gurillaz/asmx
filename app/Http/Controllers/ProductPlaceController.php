@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductPlaceRequest;
 use App\ProductPlace;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class ProductPlaceController extends Controller
 {
@@ -33,9 +35,21 @@ class ProductPlaceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductPlaceRequest $request)
     {
-        //
+        $request->validated();
+
+        $place = new ProductPlace();
+        $place->product_id = $request->get('product_id');
+        $place->place_no = $request->get('place_no');
+        $place->comment = $request->get('comment');
+        $place->user_id = $request->user()->id;
+        $place->save();
+
+
+        return Response::json([
+            'place' => $place,
+        ], 200);
     }
 
     /**
@@ -80,6 +94,10 @@ class ProductPlaceController extends Controller
      */
     public function destroy(ProductPlace $productPlace)
     {
-        //
+        $productPlace->delete();
+
+        return Response::json([
+            'message' => "Product place deleted",
+        ], 200);
     }
 }

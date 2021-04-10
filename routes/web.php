@@ -69,19 +69,24 @@ Route::middleware(['auth', 'auth'])->group(function () {
     Route::resource('/offer', 'OfferController');
     Route::get('/offer/print/{offer}', 'OfferController@print');
 
+    Route::get('/product/order/accept/{id}', 'OrderController@accept_order');
     Route::resource('/product/order', 'OrderController');
 
     Route::resource('/product/category', 'CategoryController');
     Route::resource('/product/unit', 'MeasuringUnitController');
+
+    Route::get('/product/last', 'ProductController@show_last_product');
+    Route::get('/product/import', 'ProductController@import_create');
+    Route::post('/product/import_store', 'ProductController@import_store');
+
     Route::resource('/product', 'ProductController');
+
+    Route::resource('/subject', 'SubjectController');
 
     Route::resource('/client', 'ClientController');
     Route::resource('/supplier', 'SupplierController');
     Route::resource('/brand', 'BrandController');
-    Route::resource('/subject', 'SubjectController');
     Route::resource('/document-type', 'DocumentTypeController');
-    Route::get('/product/import', 'ProductController@import_create');
-    Route::post('/product/import_store', 'ProductController@import_store');
 });
 
 

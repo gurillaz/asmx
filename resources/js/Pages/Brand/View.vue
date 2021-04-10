@@ -170,6 +170,7 @@ export default {
 
   methods: {
     submit() {
+        this.$page.props.errors = {};
       if (!confirm("Ruaj ndryshimet?")) {
         return;
       }

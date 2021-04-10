@@ -24,17 +24,22 @@
                   </v-text-field>
                 </v-col>
                 <v-spacer></v-spacer>
-                <v-cols cols="3">
-                    <v-card-title class="white--text">
-                        Lista e furnitorieve
-                    </v-card-title>
-                </v-cols>
+                <v-col cols="3"   class="py-0 my-0">
+                  <v-card-title class="white--text"> Lista e furnitoreve </v-card-title>
+                </v-col>
                 <v-spacer></v-spacer>
                 <v-col cols="3" class="text-right">
-                  <v-btn  color="primary" depressed dark>
-                    Shto furnitor te ri
-                    <v-icon right small>mdi-plus-circle-outline</v-icon></v-btn
+                  <inertia-link
+                    :href="route + '/supplier/create'"
+                    style="text-decoration: none"
                   >
+                    <v-btn color="primary" dark depressed>
+                      Shto furnitor te ri
+                      <v-icon right small
+                        >mdi-plus-circle-outline</v-icon
+                      ></v-btn
+                    >
+                  </inertia-link>
                 </v-col>
               </v-row>
             </v-container>
@@ -82,49 +87,46 @@ export default {
       headers: [
         {
           text: "# Unik",
-          value: "subject.id",
+          value: "id",
           width: "6%",
           sortable: false,
         },
         {
-          text: "Subjekti",
-          value: "subject.name",
-          width: "20%",
-        },
-        {
-          text: "Vendi/Qyteti",
-          value: "subject.city",
-          width: "19%",
-          align: "center",
-        },
-        {
-          text: "Emri",
-          value: "first_name",
-          width: "10%",
-          align: "right",
+          text: "Emri i subjektit",
+          value: "name",
+          width: "34%",
         },
 
-        {
-          text: "Mbiemri",
-          value: "last_name",
+                {
+          text: "Qyteti",
+          value: "city",
+          width: "10%",
+        },
+
+                        {
+          text: "Shteti",
+          value: "country",
           width: "10%",
         },
         {
-          text: "Nr. fiskal",
-          value: "subject.fiscal_no",
-          width: "8%",
+          text: "Personi kontaktues",
+          value: "contact_name",
+          width: "10%",
+          align:'right'
         },
         {
           text: "Telefon(1)",
           value: "phone_1",
           width: "10%",
         },
+
         {
-          text: "Kategorizimi",
-          value: "price_level.name",
-          width: "7%",
-          sortable: false,
+          text: "Numri artikujve",
+          value: "products_count",
+          width: "10%",
+          align:'center'
         },
+
 
         {
           text: "Hape",

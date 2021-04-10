@@ -1,7 +1,7 @@
 <template>
 	<v-app>
 		<v-main>
-			<v-container fluid class="fill-height guest-bg-gradient">
+			<v-container fluid class="fill-height  guest-bg-gradient">
                 <slot/>
 			</v-container>
 		</v-main>
@@ -16,15 +16,22 @@
 </script>
 
 
-<style scoped>
-.guest-bg-gradient{
+<style lang="scss" scoped>
 
 
-/* background: rgb(139,133,251);
-background: radial-gradient(circle, rgba(139,133,251,1) 0%, rgba(211,211,246,1) 35%, rgba(255,255,255,1) 100%); */
+// Colors
+$bg-color:#37474F;
+$dot-color:#263238;
 
-background: rgb(139,133,251);
-background: linear-gradient(13deg, rgba(139,133,251,1) 0%, rgba(211,211,246,1) 35%, rgba(255,255,255,1) 100%);
+// Dimensions
+$dot-size: 2px;
+$dot-space: 15px;
 
+.guest-bg-gradient {
+	background:
+		linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
+		linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
+		$dot-color;
+	background-size: $dot-space $dot-space;
 }
 </style>

@@ -34,9 +34,11 @@
                     flat
                     dense
                     label="Oferta"
+                    prefix="Oferta:"
+
                     single-line
                     hide-details
-                    v-model="resource_id"
+                    v-model="open_resource_id"
                     @keypress.enter="open_resource()"
                   ></v-text-field>
                 </v-col>
@@ -161,11 +163,11 @@
 
                 <v-col
                   cols="auto"
-                  v-if="offer.created_at !== offer.modified_at"
+                  v-if="offer.created_at !== offer.updated_at"
                 >
                   <p class="text-info caption pb-0 mb-0">Modifikuar me:</p>
                   <p class="py-0 my-0">
-                    {{ moment(offer.modified_at).format("DD-MM-YY HH:mm") }}
+                    {{ moment(offer.updated_at).format("DD-MM-YY HH:mm") }}
                   </p>
                 </v-col>
 
@@ -428,7 +430,7 @@ export default {
 
   data() {
     return {
-      resource_id: "",
+      open_resource_id: "",
       errors: null,
       add_product_dialog: false,
       edit_product_dialog: false,
@@ -551,7 +553,7 @@ export default {
 
   methods: {
     open_resource() {
-      this.$inertia.get("/offer/" + this.resource_id);
+      this.$inertia.get("/offer/" + this.open_resource_id);
     },
     remove_product(product) {
       if (confirm("Konfirmo fshirjen e artikullit!")) {
@@ -628,7 +630,7 @@ export default {
   },
 
   mounted() {
-    this.resource_id = this.offer.id;
+    this.open_resource_id = this.offer.id;
   },
 };
 </script>

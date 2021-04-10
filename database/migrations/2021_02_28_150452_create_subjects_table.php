@@ -26,9 +26,8 @@ class CreateSubjectsTable extends Migration
 
             $table->enum('subject_type',['supplier','client','other']);
 
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('phone_1');
+            $table->string('contact_name')->nullable();
+            $table->string('phone_1')->nullable();
             $table->string('phone_2')->nullable();
             $table->string('email')->nullable();
 

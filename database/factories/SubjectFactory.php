@@ -22,8 +22,7 @@ $factory->define(Subject::class, function (Faker $faker) {
         'postal_code' => $faker->postcode,
         'country' => $faker->country,
 
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
+        'contact_name' => $faker->firstName,
         'phone_1' => $faker->phoneNumber,
         'phone_2' => $faker->phoneNumber,
         'email' => $faker->email,
@@ -33,9 +32,9 @@ $factory->define(Subject::class, function (Faker $faker) {
         'subject_type' => $faker->randomElement(['client', 'supplier']),
 
 
-        'credit_limit' => $faker->numberBetween(0,999),
-        'payment_limit_days' => $faker->numberBetween(0,30),
-        'price_increase_quota' => $faker->randomFloat(2,1,2),
+        'credit_limit' => $faker->numberBetween(0, 999),
+        'payment_limit_days' => $faker->numberBetween(0, 30),
+        'price_increase_quota' => $faker->randomFloat(2, 1, 2),
 
     ];
 });

@@ -52,6 +52,37 @@ class LoginController extends Controller
 
 
     /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'username';
+    }
+
+    // public function login(Request $request)
+    // {
+    //     $input = $request->all();
+
+    //     $this->validate($request, [
+    //         'username' => 'required',
+    //         'password' => 'required',
+    //     ]);
+
+    //     $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+    //     if(auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password'])))
+    //     {
+    //         return redirect()->route('home');
+    //     }else{
+    //         return redirect()->route('login')
+    //             ->with('error','User/Email dhe ose fjalkalimi jane gabim.');
+    //     }
+
+    // }
+
+
+    /**
      * The user has been authenticated.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -62,7 +93,6 @@ class LoginController extends Controller
     {
         //Fillo sessionin me qasje private/public=false.
         // Ndrrimi i qasjes mund te ndryshohet pas loginit te suksesshem nga perdoruesi
-        $request->session()->put('public',true);
-
+        $request->session()->put('public', true);
     }
 }

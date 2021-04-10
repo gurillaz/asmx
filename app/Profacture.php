@@ -7,14 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Profacture extends Model
 {
 
-    protected $appends = ['created_by','profacture_sum'];
+    protected $appends = ['created_by','products_count', 'profacture_sum'];
 
 
 
-    public function client()
-    {
-        return $this->belongsTo(Client::class);
-    }
 
     public function subject()
     {
@@ -36,14 +32,15 @@ class Profacture extends Model
     {
         return $this->user()->first('name')->name;
     }
-
+    public function getProductsCountAttribute()
+    {
+        return $this->products()->count();
+    }
     public function getProfactureSumAttribute()
     {
 
 
 
-        return round($this->products()->sum('product_profacture.price'),2);
-
-
+        return round($this->products()->sum('product_profacture.price'), 2);
     }
 }

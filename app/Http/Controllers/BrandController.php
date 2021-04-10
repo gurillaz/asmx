@@ -37,7 +37,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        $suppliers = Subject::select(['id', 'name'])->where('subject_type','supplier')->get();
+        $suppliers = Subject::select(['id', 'name','user_id'])->where('subject_type','supplier')->get();
         return Inertia::render('Brand/New', ['suppliers' => $suppliers]);
     }
 
@@ -83,7 +83,9 @@ class BrandController extends Controller
      */
     public function show(Brand $brand)
     {
-        $suppliers = Subject::select(['id', 'name'])->where('subject_type','supplier')->get();
+        $suppliers = Subject::select(['id', 'name','user_id'])
+        ->where('subject_type','supplier')
+        ->get();
 
         // $brand = Brand::where('id',$brand_id)->with('suppliers:id')->first();
         // $brand->suppliers = $brand->suppliers->map(function($supplier){

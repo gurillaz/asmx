@@ -23,14 +23,15 @@ class CreateProductsTable extends Migration
             $table->string('supplier_no');
             $table->string('producer_no');
             $table->string('barcode')->nullable();
-            $table->enum('quality',['0','1','2','3','4','5'])->nullable();
+
+
+            $table->enum('quality',['I pacaktuar','1','2','3','4','5'])->nullable();
             $table->double('weight')->default(0);
             $table->text('info')->nullable();
-            $table->unsignedInteger('picies_in_set')->nullable();
+            $table->unsignedInteger('pieces_in_set')->nullable();
             $table->unsignedDouble('buying_price');
             $table->unsignedDouble('cost');
             $table->unsignedDouble('tax_rate');
-            $table->unsignedDouble('fixed_selling_price')->nullable();
 
             $table->decimal('stock')->nullable();
 

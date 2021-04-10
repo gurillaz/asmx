@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Supplier;
+use App\PriceLevel;
+use App\Subject;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -32,12 +33,12 @@ class SupplierController extends Controller
         // $table->foreign('subject_id')->references('id')->on('subjects')->onUpdate('cascade');
         // $table->timestamps();
 
-        $suppliers = Supplier::query()
-        ->with('subject:id,name,city,fiscal_no')
-        ->select(['id','first_name', 'last_name', 'subject_id','email','phone_1'])
-        ->get();
+        $suppliers = Subject::query()
+            ->where('subject_type', 'supplier')
+            ->get();
 
-        return Inertia::render('Subject/Supplier/Index', ['suppliers' => $suppliers]);
+
+        return Inertia::render('Supplier/Index', ['suppliers' => $suppliers]);
     }
 
     /**
@@ -47,7 +48,23 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        dd("Furnitoret");
+        $price_levels = PriceLevel::query()
+            ->select(['id', 'name'])
+            ->get();
+
+        $subject_types =  [
+            ['value' => 'client', 'text' => "Klient"],
+            ['value' => 'supplier', 'text' => "Furnitor"],
+            ['value' => 'other', 'text' => "Tjeter"],
+        ];
+
+        $subject_type = "supplier";
+
+        return Inertia::render('Subject/New', [
+            'price_levels' => $price_levels,
+            'subject_types' => $subject_types,
+            'subject_type' => $subject_type
+        ]);
     }
 
     /**
@@ -64,10 +81,53 @@ class SupplierController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Supplier  $supplier
+     * @param  \App\Subject  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function show(Supplier $supplier)
+    public function show($supplier_id)
+    {
+
+        $supplier = Subject::query()
+            ->where('subject_type', 'supplier')
+            ->where('id', $supplier_id)
+            ->with('products')
+            ->first();
+        if (!$supplier) {
+            return redirect('supplier')->withErrors(['not_found' => 'Furnitori nuk u gjet!']);
+        }
+
+
+        $price_levels = PriceLevel::query()
+            ->select(['id', 'name'])
+            ->get();
+
+        $subject_types =  [
+            ['value' => 'client', 'text' => "Klient"],
+            ['value' => 'supplier', 'text' => "Furnitor"],
+            ['value' => 'other', 'text' => "Tjeter"],
+        ];
+
+        $subject_type = "supplier";
+
+
+
+
+
+        return Inertia::render('Supplier/View', [
+            'supplier' => $supplier,
+            'price_levels' => $price_levels,
+            'subject_types' => $subject_types,
+            'subject_type' => $subject_type
+        ]);
+    }
+
+        /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Subject  $supplier
+     * @return \Illuminate\Http\Response
+     */
+    public function supplier_products(Subject $supplier)
     {
         //
     }
@@ -75,10 +135,10 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Supplier  $supplier
+     * @param  \App\Subject  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function edit(Supplier $supplier)
+    public function edit(Subject $supplier)
     {
         //
     }
@@ -87,21 +147,20 @@ class SupplierController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Supplier  $supplier
+     * @param  \App\Subject  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Supplier $supplier)
+    public function update(Request $request, Subject $supplier)
     {
-        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Supplier  $supplier
+     * @param  \App\Subject  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(Subject $supplier)
     {
         //
     }
